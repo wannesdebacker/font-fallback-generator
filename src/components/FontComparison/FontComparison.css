@@ -1,0 +1,282 @@
+.font-comparison {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding-block: var(--space-8);
+  padding-inline: var(--space-8);
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.05);
+  transition: border 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.font-comparison--matched {
+  border-color: var(--green-600);
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(5, 150, 105, 0.1);
+}
+
+.font-comparison__title {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin-block-end: var(--space-6);
+  color: var(--slate-800);
+}
+
+.font-comparison__controls {
+  margin-block-end: var(--space-8);
+}
+
+.font-comparison__control-group {
+  margin-block-end: var(--space-6);
+}
+
+.font-comparison__label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  color: var(--gray-600);
+  margin-block-end: var(--space-2);
+}
+
+.font-comparison__label-text {
+  flex-basis: content;
+}
+
+.font-comparison__label-value {
+  font-weight: 600;
+  color: var(--blue-600);
+  min-inline-size: 60px;
+  text-align: right;
+}
+
+.font-comparison__select {
+  appearance: none;
+  inline-size: auto;
+  flex: 1;
+  min-inline-size: 0;
+  padding-block: var(--space-2);
+  padding-inline: var(--space-2);
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius-sm);
+  background: white;
+  font-size: var(--text-sm);
+  margin-block-start: var(--space-1);
+  margin-inline-start: var(--space-2);
+}
+
+.font-comparison__select:focus-visible {
+  outline: 2px solid var(--blue-600);
+  outline-offset: 2px;
+  border-color: var(--blue-600);
+}
+
+.font-comparison__slider {
+  inline-size: 100%;
+  margin-block-start: var(--space-2);
+  accent-color: var(--blue-600);
+}
+
+.font-comparison__slider:focus-visible {
+  outline: 2px solid var(--blue-600);
+  outline-offset: 2px;
+}
+
+.font-comparison__preview--side-by-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.font-comparison__preview--overlay {
+  display: block;
+}
+
+.font-comparison__sample {
+  padding-block: var(--space-5);
+  padding-inline: var(--space-5);
+  background: var(--slate-100);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--slate-200);
+}
+
+.font-comparison__sample-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--gray-400);
+  margin-block-end: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.font-comparison__sample-text {
+  line-height: 1.5;
+  color: var(--slate-800);
+  word-break: break-word;
+}
+
+.font-comparison__sample-text > * + * {
+  margin-block-start: 1em;
+}
+
+.font-comparison__overlay-container {
+  position: relative;
+}
+
+.font-comparison__overlay-controls {
+  display: flex;
+  gap: var(--space-4);
+  margin-block-end: var(--space-4);
+  justify-content: center;
+}
+
+.font-comparison__overlay-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-weight: 500;
+  color: var(--gray-600);
+}
+
+.font-comparison__overlay-wrapper {
+  position: relative;
+  padding-block: var(--space-5);
+  padding-inline: var(--space-5);
+  background: var(--slate-100);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--slate-200);
+}
+
+.font-comparison__overlay-original {
+  position: relative;
+  line-height: 1.5;
+  color: var(--slate-800);
+  word-break: break-word;
+}
+
+.font-comparison__overlay-fallback {
+  position: absolute;
+  inset-block-start: var(--space-5);
+  inset-inline-start: var(--space-5);
+  inset-inline-end: var(--space-5);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  line-height: 1.5;
+  color: var(--slate-800);
+  word-break: break-word;
+}
+
+.font-comparison__loading {
+  font-size: var(--text-sm);
+  color: var(--gray-400);
+  margin-inline-start: var(--space-2);
+}
+
+.font-comparison__recalc-btn {
+  margin-block-start: var(--space-4);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-4);
+  background: var(--blue-600);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  transition: background 0.2s ease;
+}
+
+.font-comparison__recalc-btn:hover:not(:disabled) {
+  background: var(--blue-700);
+}
+
+.font-comparison__recalc-btn:focus-visible {
+  outline: 2px solid var(--blue-600);
+  outline-offset: 2px;
+}
+
+.font-comparison__recalc-btn:disabled {
+  background: var(--slate-600);
+  cursor: not-allowed;
+}
+
+.font-comparison__optimized {
+  color: var(--green-600);
+  margin-inline-start: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.font-comparison__description {
+  font-size: var(--text-sm);
+  color: var(--gray-400);
+  margin-block-start: var(--space-1);
+}
+
+@media (max-width: 1024px) {
+  .font-comparison__preview--side-by-side {
+    grid-template-columns: 1fr;
+  }
+  
+  .font-comparison__overlay-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .font-comparison__overlay-label {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+}
+  inset-inline-end: 1.25rem;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  line-height: 1.5;
+  color: #1e293b;
+  word-break: break-word;
+}
+
+.font-comparison__loading {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-inline-start: 0.5rem;
+}
+
+.font-comparison__recalc-btn {
+  margin-block-start: 1rem;
+  padding: 0.5rem 1rem;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background 0.2s ease;
+}
+
+.font-comparison__recalc-btn:hover:not(:disabled) {
+  background: #4338ca;
+}
+
+.font-comparison__recalc-btn:disabled {
+  background: #64748b;
+  cursor: not-allowed;
+}
+
+.font-comparison__optimized {
+  color: #059669;
+  margin-inline-start: 0.5rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 1024px) {
+  .font-comparison__preview--side-by-side {
+    grid-template-columns: 1fr;
+  }
+  
+  .font-comparison__overlay-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .font-comparison__overlay-label {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

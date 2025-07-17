@@ -1,0 +1,196 @@
+.config-output {
+  background: var(--slate-800);
+  border-radius: var(--radius-xl);
+  padding-block: var(--space-8);
+  padding-inline: var(--space-8);
+  color: white;
+}
+
+.config-output__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-block-end: var(--space-5);
+  gap: var(--space-3);
+}
+
+.config-output__title {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  flex: 1;
+}
+
+.config-output__copy-btn {
+  background: var(--blue-600);
+  color: white;
+  border: none;
+  padding-block: var(--space-2);
+  padding-inline: var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+  min-inline-size: 100px;
+  text-align: center;
+}
+
+.config-output__copy-btn:hover:not(:disabled) {
+  background: var(--blue-700);
+}
+
+.config-output__copy-btn:focus-visible {
+  outline: 2px solid var(--blue-600);
+  outline-offset: 2px;
+}
+
+.config-output__copy-btn:disabled {
+  background: var(--slate-600);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.config-output__copy-btn--copied {
+  background: var(--green-600);
+}
+
+.config-output__code {
+  background: var(--slate-900);
+  border-radius: var(--radius-md);
+  padding-block: var(--space-5);
+  padding-inline: var(--space-5);
+  overflow-x: auto;
+  font-family: 'SF Mono', Monaco, monospace;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: #e2e8f0;
+  border: 1px solid var(--slate-700);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  min-block-size: 200px;
+}
+
+.config-output__code:focus-visible {
+  outline: 2px solid var(--blue-600);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .config-output {
+    padding-block: var(--space-6);
+    padding-inline: var(--space-6);
+  }
+  
+  .config-output__header {
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: stretch;
+  }
+  
+  .config-output__title {
+    text-align: center;
+  }
+  
+  .config-output__copy-btn {
+    inline-size: 100%;
+    padding-block: var(--space-3);
+  }
+  
+  .config-output__code {
+    padding-block: var(--space-4);
+    padding-inline: var(--space-4);
+    font-size: 0.8rem;
+    min-block-size: 150px;
+  }
+}.config-output {
+  background: #1e293b;
+  border-radius: 1.5rem;
+  padding: 1.875rem;
+  color: white;
+}
+
+.config-output__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-block-end: 1.25rem;
+  gap: 0.75rem;
+}
+
+.config-output__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.config-output__copy-btn {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+  min-inline-size: 100px;
+  text-align: center;
+}
+
+.config-output__copy-btn:hover:not(:disabled) {
+  background: #4338ca;
+}
+
+.config-output__copy-btn:disabled {
+  background: #64748b;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.config-output__copy-btn--copied {
+  background: #059669;
+}
+
+.config-output__code {
+  background: #0f172a;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-family: 'SF Mono', Monaco, monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  min-block-size: 200px;
+}
+
+@media (max-width: 768px) {
+  .config-output {
+    padding: 1.5rem;
+  }
+  
+  .config-output__header {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+  
+  .config-output__title {
+    text-align: center;
+  }
+  
+  .config-output__copy-btn {
+    inline-size: 100%;
+    padding: 0.75rem;
+  }
+  
+  .config-output__code {
+    padding: 1rem;
+    font-size: 0.8rem;
+    min-block-size: 150px;
+  }
+}
