@@ -13,6 +13,17 @@
   box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(5, 150, 105, 0.1);
 }
 
+.font-comparison__match-indicator {
+  background: var(--green-600);
+  color: white;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  margin-block-end: var(--space-4);
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
 .font-comparison__title {
   font-size: var(--text-xl);
   font-weight: 600;
@@ -198,8 +209,7 @@
 }
 
 .font-comparison__optimized {
-  color: var(--green-600);
-  margin-inline-start: var(--space-2);
+  color: white;
   font-size: var(--text-sm);
 }
 
