@@ -1,7 +1,7 @@
 import { createSignal, createEffect, Show, For, type Component } from 'solid-js';
 import { fontStore } from '../../stores/fontStore';
 import { SAMPLE_TEXT, SYSTEM_FONTS } from '../../data/sampleText';
-import { findOptimalSizeAdjust, checkHeightMatch } from '../../utils/fontUtils';
+import { findOptimalSizeAdjust, createAdjustedFontFace, checkHeightMatch } from '../../utils/fontUtils';
 import './FontComparison.css';
 
 export const FontComparison: Component = () => {
@@ -12,6 +12,7 @@ export const FontComparison: Component = () => {
   const [fallbackOpacity, setFallbackOpacity] = createSignal(50);
   const [isCalculating, setIsCalculating] = createSignal(false);
   const [isHeightMatched, setIsHeightMatched] = createSignal(false);
+  const [adjustedFontFamily, setAdjustedFontFamily] = createSignal<string>('');
 
   let originalSampleRef: HTMLDivElement | undefined;
   let fallbackSampleRef: HTMLDivElement | undefined;
@@ -23,7 +24,7 @@ export const FontComparison: Component = () => {
     setIsCalculating(true);
 
     try {
-      const optimalSizeAdjust = findOptimalSizeAdjust(
+      const optimalSizeAdjust = await findOptimalSizeAdjust(
         originalSampleRef,
         fallbackSampleRef,
         uploadedFont.name,
@@ -32,12 +33,22 @@ export const FontComparison: Component = () => {
       );
       
       setSizeAdjust(optimalSizeAdjust);
+      
+      // Create the adjusted font-face
+      const adjustedFamily = createAdjustedFontFace(selectedFallback(), optimalSizeAdjust);
+      setAdjustedFontFamily(adjustedFamily);
+      
       fontStore.updateFallbackSettings(selectedFallback(), optimalSizeAdjust);
     } catch (error) {
       console.error('Error calculating fallback:', error);
     } finally {
       setIsCalculating(false);
     }
+  };
+
+  const updateAdjustedFont = () => {
+    const adjustedFamily = createAdjustedFontFace(selectedFallback(), sizeAdjust());
+    setAdjustedFontFamily(adjustedFamily);
   };
 
   const checkMatch = () => {
@@ -64,6 +75,7 @@ export const FontComparison: Component = () => {
     const target = e.target as HTMLInputElement;
     const value = parseFloat(target.value);
     setSizeAdjust(value);
+    updateAdjustedFont();
   };
 
   const handleFontSizeChange = (e: Event) => {
@@ -95,6 +107,7 @@ export const FontComparison: Component = () => {
   });
 
   const uploadedFont = () => fontStore.getUploadedFont();
+  const fallbackFontFamily = () => adjustedFontFamily() || selectedFallback();
 
   return (
     <Show when={uploadedFont()}>
@@ -163,7 +176,7 @@ export const FontComparison: Component = () => {
               aria-describedby="size-adjust-desc"
             />
             <div id="size-adjust-desc" class="font-comparison__description">
-              Adjust fallback font size to match original font height
+              Adjust fallback font using CSS size-adjust property (NOT font-size!)
             </div>
           </div>
 
@@ -183,7 +196,7 @@ export const FontComparison: Component = () => {
               aria-describedby="font-size-desc"
             />
             <div id="font-size-desc" class="font-comparison__description">
-              Base font size for comparison preview
+              Base font size for comparison preview (same for both fonts)
             </div>
           </div>
 
@@ -196,7 +209,7 @@ export const FontComparison: Component = () => {
             {isCalculating() ? 'Calculating...' : 'Recalculate'}
           </button>
           <div id="recalc-desc" class="font-comparison__description">
-            Automatically calculate optimal size adjust value
+            Automatically calculate optimal size-adjust value by measuring text heights
           </div>
         </div>
 
@@ -234,8 +247,8 @@ export const FontComparison: Component = () => {
                   ref={fallbackSampleRef}
                   class="font-comparison__sample-text font-comparison__overlay-fallback"
                   style={{
-                    'font-family': selectedFallback(),
-                    'font-size': `${fontSize() * (sizeAdjust() / 100)}px`,
+                    'font-family': fallbackFontFamily(),
+                    'font-size': `${fontSize()}px`, // Same font size!
                     'opacity': fallbackOpacity() / 100
                   }}
                   innerHTML={SAMPLE_TEXT}
@@ -262,17 +275,14 @@ export const FontComparison: Component = () => {
 
             <div class="font-comparison__sample">
               <h3 class="font-comparison__sample-title">
-                Fallback Font ({selectedFallback()} at {sizeAdjust()}%)
-                <Show when={isHeightMatched()}>
-                  <span class="font-comparison__optimized">✓ Matched</span>
-                </Show>
+                Fallback Font ({selectedFallback()} with size-adjust: {sizeAdjust()}%)
               </h3>
               <div
                 ref={fallbackSampleRef}
                 class="font-comparison__sample-text"
                 style={{
-                  'font-family': selectedFallback(),
-                  'font-size': `${fontSize() * (sizeAdjust() / 100)}px`
+                  'font-family': fallbackFontFamily(),
+                  'font-size': `${fontSize()}px` // Same font size!
                 }}
                 innerHTML={SAMPLE_TEXT}
               />

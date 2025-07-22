@@ -29,20 +29,49 @@ export const loadFont = async (file: File): Promise<UploadedFont> => {
   }
 };
 
+// Create font-face with size-adjust and return the adjusted font family name
+export const createAdjustedFontFace = (
+  fallbackFont: string, 
+  sizeAdjust: number
+): string => {
+  const adjustedFamilyName = `${fallbackFont}-adjusted-${Date.now()}`;
+  
+  // Remove any existing style with this font
+  const existingStyle = document.querySelector(`style[data-font="${adjustedFamilyName}"]`);
+  if (existingStyle) {
+    existingStyle.remove();
+  }
+  
+  // Create new font-face with size-adjust
+  const css = `
+@font-face {
+  font-family: '${adjustedFamilyName}';
+  src: local('${fallbackFont}');
+  size-adjust: ${sizeAdjust}%;
+  font-display: swap;
+}`;
+
+  const styleElement = document.createElement('style');
+  styleElement.setAttribute('data-font', adjustedFamilyName);
+  styleElement.textContent = css;
+  document.head.appendChild(styleElement);
+  
+  return adjustedFamilyName;
+};
+
 export const measureFontMetrics = (
   element: HTMLElement,
   fontFamily: string,
-  fontSize: number,
-  sizeAdjust: number = 100
+  fontSize: number
 ): FontMetrics => {
   const originalStyle = {
     fontFamily: element.style.fontFamily,
     fontSize: element.style.fontSize
   };
   
-  // Apply font styles
+  // Apply font styles (same font size for both!)
   element.style.fontFamily = fontFamily;
-  element.style.fontSize = `${fontSize * (sizeAdjust / 100)}px`;
+  element.style.fontSize = `${fontSize}px`;
   
   // Force reflow
   element.offsetHeight;
@@ -60,13 +89,13 @@ export const measureFontMetrics = (
   return metrics;
 };
 
-export const findOptimalSizeAdjust = (
+export const findOptimalSizeAdjust = async (
   originalElement: HTMLElement,
   fallbackElement: HTMLElement,
   originalFontFamily: string,
   fallbackFontFamily: string,
   fontSize: number
-): number => {
+): Promise<number> => {
   // Get original font metrics
   const originalMetrics = measureFontMetrics(originalElement, originalFontFamily, fontSize);
   
@@ -78,7 +107,15 @@ export const findOptimalSizeAdjust = (
   
   for (let i = 0; i < 25; i++) {
     const testSizeAdjust = (low + high) / 2;
-    const fallbackMetrics = measureFontMetrics(fallbackElement, fallbackFontFamily, fontSize, testSizeAdjust);
+    
+    // Create adjusted font-face
+    const adjustedFontFamily = createAdjustedFontFace(fallbackFontFamily, testSizeAdjust);
+    
+    // Wait a bit for font to load
+    await new Promise(resolve => setTimeout(resolve, 10));
+    
+    // Measure with adjusted font (same font size!)
+    const fallbackMetrics = measureFontMetrics(fallbackElement, adjustedFontFamily, fontSize);
     
     const heightDiff = fallbackMetrics.height - originalMetrics.height;
     const absDiff = Math.abs(heightDiff);
